@@ -1,23 +1,19 @@
-import { HomeSectionHeader } from "./home-section-header"
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel"
-import type { HomeReviewType } from "@/types/home.type"
-import Autoplay from "embla-carousel-autoplay"
-import { NReviewCard } from "../shared/review-card"
-import ContentWrapper from "../wrapper/content-wrapper"
+} from "@/components/ui/carousel";
+import type { HomeReviewType } from "@/types/home.type";
+import Autoplay from "embla-carousel-autoplay";
+import { NReviewCard } from "../shared/review-card";
+import ContentWrapper from "../wrapper/content-wrapper";
+import { HomeSectionHeader } from "./home-section-header";
 
-export function ReviewsSlider({
-  reviews,
-}: {
-  reviews: HomeReviewType[]
-}) {
+export function ReviewsSlider({ reviews }: { reviews: HomeReviewType[] }) {
   return (
-    <section className="py-20">
+    <section className="py-20" id="customer-reviews">
       <ContentWrapper>
         <HomeSectionHeader
           title="What Our Customers Say"
@@ -53,5 +49,5 @@ export function ReviewsSlider({
         </Carousel>
       </ContentWrapper>
     </section>
-  )
+  );
 }

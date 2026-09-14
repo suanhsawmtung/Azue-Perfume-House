@@ -1,22 +1,17 @@
-import { BlogGrid } from "@/components/blog/blog-grid"
-import { HomeSectionHeader } from "../home-section-header"
-import ContentWrapper from "@/components/wrapper/content-wrapper"
-import type { HomePostType } from "@/types/home.type"
-import { ArrowRight } from "lucide-react"
-import { Link } from "react-router"
+import { BlogGrid } from "@/components/blog/blog-grid";
+import ContentWrapper from "@/components/wrapper/content-wrapper";
+import type { HomePostType } from "@/types/home.type";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router";
+import { HomeSectionHeader } from "../home-section-header";
 
-export function LatestBlogsSection({
-  posts
-}: {
-  posts: HomePostType[]
-}) {
-
-  if(posts?.length === 0) {
-    return null
+export function LatestBlogsSection({ posts }: { posts: HomePostType[] }) {
+  if (posts?.length === 0) {
+    return null;
   }
 
   return (
-    <section className="py-20">
+    <section className="py-20" id="latest-blogs">
       <ContentWrapper>
         <HomeSectionHeader
           title="Latest Stories"
@@ -36,5 +31,5 @@ export function LatestBlogsSection({
         </Link>
       </ContentWrapper>
     </section>
-  )
+  );
 }

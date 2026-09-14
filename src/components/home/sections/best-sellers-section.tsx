@@ -1,25 +1,25 @@
-import { ProductCard } from "@/components/product/product-card"
-import ContentWrapper from "@/components/wrapper/content-wrapper"
-import type { HomeProductType } from "@/types/home.type"
-import { ArrowRight } from "lucide-react"
-import { Link } from "react-router"
-import { HomeSectionHeader } from "../home-section-header"
-import { usePreferenceStore } from "@/stores/preference.store"
-import { getProductListPageHref } from "@/lib/utils"
+import { ProductCard } from "@/components/product/product-card";
+import ContentWrapper from "@/components/wrapper/content-wrapper";
+import { getProductListPageHref } from "@/lib/utils";
+import { usePreferenceStore } from "@/stores/preference.store";
+import type { HomeProductType } from "@/types/home.type";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router";
+import { HomeSectionHeader } from "../home-section-header";
 
 export function BestSellersSection({
-  products
+  products,
 }: {
-  products: HomeProductType[]
+  products: HomeProductType[];
 }) {
   if (!products) {
-    return null
+    return null;
   }
 
   const gender = usePreferenceStore((state) => state.gender);
 
   return (
-    <section className="bg-secondary/30 py-20">
+    <section className="bg-secondary/30 py-20" id="best-sellers">
       <ContentWrapper>
         <HomeSectionHeader
           title="Best Sellers"
@@ -43,5 +43,5 @@ export function BestSellersSection({
         </Link>
       </ContentWrapper>
     </section>
-  )
+  );
 }

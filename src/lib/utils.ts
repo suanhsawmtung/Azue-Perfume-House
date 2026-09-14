@@ -519,5 +519,12 @@ export function getMyOrdersDocumentTitle({
   return "My Orders | Azue Perfume House";
 }
 
+export const scrollToSection = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+};
+
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));

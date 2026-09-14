@@ -1,25 +1,21 @@
-import { ProductCard } from "@/components/product/product-card"
-import ContentWrapper from "@/components/wrapper/content-wrapper"
-import type { HomeProductType } from "@/types/home.type"
-import { ArrowRight } from "lucide-react"
-import { Link } from "react-router"
-import { HomeSectionHeader } from "../home-section-header"
-import { getProductListPageHref } from "@/lib/utils"
-import { usePreferenceStore } from "@/stores/preference.store"
+import { ProductCard } from "@/components/product/product-card";
+import ContentWrapper from "@/components/wrapper/content-wrapper";
+import { getProductListPageHref } from "@/lib/utils";
+import { usePreferenceStore } from "@/stores/preference.store";
+import type { HomeProductType } from "@/types/home.type";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router";
+import { HomeSectionHeader } from "../home-section-header";
 
-export function ForYouSection({
-  products
-}: {
-  products: HomeProductType[]
-}) {
+export function ForYouSection({ products }: { products: HomeProductType[] }) {
   if (!products) {
-    return null
+    return null;
   }
 
   const gender = usePreferenceStore((state) => state.gender);
 
   return (
-    <section className="py-20">
+    <section className="py-20" id="for-you">
       <ContentWrapper>
         <HomeSectionHeader
           title="For You"
@@ -43,5 +39,5 @@ export function ForYouSection({
         </Link>
       </ContentWrapper>
     </section>
-  )
+  );
 }
