@@ -8,69 +8,65 @@ The project also includes an administration panel for managing the business, inc
 
 The project may be expanded in the future with additional e-commerce and business management capabilities.
 
-
-
 ## Features
 
 ### Customer Application
 
-* Browse and search authentic perfumes
-* Filter and paginate products
-* View product details and available variants
-* Shopping cart
-* Wishlist
-* Customer reviews
-* Customer profile and account settings
-* Order placement and order history
-* Order status tracking
-* Return item records
-* Blog listing and blog details
-* Responsive design for desktop and mobile devices
-* SEO-friendly page metadata and structured data
-* Stateless authentication with JWT access and refresh tokens
+- Browse and search authentic perfumes
+- Filter and paginate products
+- View product details and available variants
+- Shopping cart
+- Wishlist
+- Customer reviews
+- Customer profile and account settings
+- Order placement and order history
+- Order status tracking
+- Return item records
+- Blog listing and blog details
+- Responsive design for desktop and mobile devices
+- SEO-friendly page metadata and structured data
+- Stateless authentication with JWT access and refresh tokens
 
 ### Administration Panel
 
-* Dashboard with business reports and statistics
-* Product management (CRUD)
-* Product variant and stock management
-* Blog management (CRUD)
-* Order management
-* Order status management
-* Customer/user management
-* Inventory and stock tracking
-* Review management
-* Return item records
-* Business reports and analytics
+- Dashboard with business reports and statistics
+- Product management (CRUD)
+- Product variant and stock management
+- Blog management (CRUD)
+- Order management
+- Order status management
+- Customer/user management
+- Inventory and stock tracking
+- Review management
+- Return item records
+- Business reports and analytics
 
 ### Possible Future Improvements
 
-* Real-time notifications for customers and administrators
-* Real-time customer–admin messaging
-* Supplier management
-* Enhanced delivery and order fulfillment process
-* Exchange management
-* Promotion and campaign management
-* Order-level discounts and promotional pricing
-* About Us page
-* Contact page
-* FAQ section
-* Additional business and reporting features
-
+- Real-time notifications for customers and administrators
+- Real-time customer–admin messaging
+- Supplier management
+- Enhanced delivery and order fulfillment process
+- Exchange management
+- Promotion and campaign management
+- Order-level discounts and promotional pricing
+- About Us page
+- Contact page
+- FAQ section
+- Additional business and reporting features
 
 ## Tech Stack
 
-* **React 19** + **TypeScript** — Frontend application
-* **Vite** — Build tool and development server
-* **React Router** — Routing and data APIs
-* **Tailwind CSS** — Styling and responsive UI
-* **shadcn/ui** — Reusable UI components
-* **TanStack Query** — Server-state and API data management
-* **Zod** — Schema validation
-* **Zustand** — Client-state management
-* **Axios** — HTTP client for API communication
-* **Lucide React** — Icons
-
+- **React 19** + **TypeScript** — Frontend application
+- **Vite** — Build tool and development server
+- **React Router** — Routing and data APIs
+- **Tailwind CSS** — Styling and responsive UI
+- **shadcn/ui** — Reusable UI components
+- **TanStack Query** — Server-state and API data management
+- **Zod** — Schema validation
+- **Zustand** — Client-state management
+- **Axios** — HTTP client for API communication
+- **Lucide React** — Icons
 
 ## Important Technical Implementations
 
@@ -84,13 +80,12 @@ The project may be expanded in the future with additional e-commerce and busines
 - Product and Article JSON-LD structured data
 - API validation and error handling
 
-
 ## Setup
 
 ### Prerequisites
 
-* Node.js
-* pnpm
+- Node.js
+- pnpm
 
 ### Installation
 
@@ -120,12 +115,6 @@ VITE_APP_ENV=development
 pnpm dev
 ```
 
-The frontend will be available at:
-
-```text
-http://localhost:5173
-```
-
 ## Environment Variables
 
 | Variable              | Description                              | Example                     |
@@ -137,7 +126,3 @@ http://localhost:5173
 | `VITE_APP_ENV`        | Current application environment          | `development`               |
 
 > **Note:** These are development values. Update them according to your deployment environment.
-
-
-
-
