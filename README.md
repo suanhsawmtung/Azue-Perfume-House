@@ -1,56 +1,143 @@
-# React + TypeScript + Vite
+# AZUE Perfume House —— Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend application for the AZUE Perfume House e-commerce platform.
 
-Currently, two official plugins are available:
+AZUE Perfume is a full-stack e-commerce application for selling authentic perfumes online. The customer-facing application allows users to browse perfumes, explore product details and variants, read perfume-related blog articles, manage their accounts, and place orders.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The project also includes an administration panel for managing the business, including product and inventory management, blog content, customer accounts, orders, and business reports. The application uses stateless authentication with JWT-based access and refresh tokens.
 
-## Expanding the ESLint configuration
+The project may be expanded in the future with additional e-commerce and business management capabilities.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+
+## Features
+
+### Customer Application
+
+* Browse and search authentic perfumes
+* Filter and paginate products
+* View product details and available variants
+* Shopping cart
+* Wishlist
+* Customer reviews
+* Customer profile and account settings
+* Order placement and order history
+* Order status tracking
+* Return item records
+* Blog listing and blog details
+* Responsive design for desktop and mobile devices
+* SEO-friendly page metadata and structured data
+* Stateless authentication with JWT access and refresh tokens
+
+### Administration Panel
+
+* Dashboard with business reports and statistics
+* Product management (CRUD)
+* Product variant and stock management
+* Blog management (CRUD)
+* Order management
+* Order status management
+* Customer/user management
+* Inventory and stock tracking
+* Review management
+* Return item records
+* Business reports and analytics
+
+### Possible Future Improvements
+
+* Real-time notifications for customers and administrators
+* Real-time customer–admin messaging
+* Supplier management
+* Enhanced delivery and order fulfillment process
+* Exchange management
+* Promotion and campaign management
+* Order-level discounts and promotional pricing
+* About Us page
+* Contact page
+* FAQ section
+* Additional business and reporting features
+
+
+## Tech Stack
+
+* **React 19** + **TypeScript** — Frontend application
+* **Vite** — Build tool and development server
+* **React Router** — Routing and data APIs
+* **Tailwind CSS** — Styling and responsive UI
+* **shadcn/ui** — Reusable UI components
+* **TanStack Query** — Server-state and API data management
+* **Zod** — Schema validation
+* **Zustand** — Client-state management
+* **Axios** — HTTP client for API communication
+* **Lucide React** — Icons
+
+
+## Important Technical Implementations
+
+- JWT-based stateless authentication with access and refresh tokens
+- Role-based authorization for customers and administrators
+- Product variants with individual pricing and stock
+- Shopping cart persistence
+- Pagination and filtering
+- SEO metadata and canonical URLs
+- Open Graph and Twitter/X metadata
+- Product and Article JSON-LD structured data
+- API validation and error handling
+
+
+## Setup
+
+### Prerequisites
+
+* Node.js
+* pnpm
+
+### Installation
+
+Clone the repository and install the dependencies:
+
+```bash
+git clone <repository-url>
+cd <repository-folder>
+pnpm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+Create a `.env` file in the project root and add the required environment variables:
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    "react-x": reactX,
-    "react-dom": reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs["recommended-typescript"].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
+```env
+VITE_API_BASE_URL=http://localhost:8080/api
+VITE_BASE_IMAGE_URL=http://localhost:8080/
+VITE_CURRENCY=MMK
+VITE_BASE_URL=http://localhost:5173
+VITE_APP_ENV=development
 ```
 
-# AZUE
+### Run the Development Server
+
+```bash
+pnpm dev
+```
+
+The frontend will be available at:
+
+```text
+http://localhost:5173
+```
+
+## Environment Variables
+
+| Variable              | Description                              | Example                     |
+| --------------------- | ---------------------------------------- | --------------------------- |
+| `VITE_API_BASE_URL`   | Base URL for the backend API             | `http://localhost:8080/api` |
+| `VITE_BASE_IMAGE_URL` | Base URL for uploaded images and media   | `http://localhost:8080/`    |
+| `VITE_CURRENCY`       | Currency used throughout the application | `MMK`                       |
+| `VITE_BASE_URL`       | Base URL of the frontend application     | `http://localhost:5173`     |
+| `VITE_APP_ENV`        | Current application environment          | `development`               |
+
+> **Note:** These are development values. Update them according to your deployment environment.
+
+
+
+
