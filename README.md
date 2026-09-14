@@ -21,7 +21,6 @@ The project may be expanded in the future with additional e-commerce and busines
 - Customer profile and account settings
 - Order placement and order history
 - Order status tracking
-- Return item records
 - Blog listing and blog details
 - Responsive design for desktop and mobile devices
 - SEO-friendly page metadata and structured data
@@ -38,7 +37,6 @@ The project may be expanded in the future with additional e-commerce and busines
 - Customer/user management
 - Inventory and stock tracking
 - Review management
-- Return item records
 - Business reports and analytics
 
 ### Possible Future Improvements
@@ -78,7 +76,6 @@ The project may be expanded in the future with additional e-commerce and busines
 - SEO metadata and canonical URLs
 - Open Graph and Twitter/X metadata
 - Product and Article JSON-LD structured data
-- API validation and error handling
 
 ## Setup
 
