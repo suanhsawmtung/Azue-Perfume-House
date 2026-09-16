@@ -49,7 +49,7 @@ api.interceptors.response.use(
       config._retry = true;
 
       // ⏳ Optional delay (e.g. 500ms)
-      await sleep(5000);
+      await sleep(1000);
 
       return api(config);
     }
@@ -59,8 +59,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
-
 
 export default api;
