@@ -19,20 +19,29 @@ export function ProductDetailActions({
   const [cartAnimation, setCartAnimation] = useState(false);
 
   const { addItem, setIsOpen } = useCartStore();
+  const authUser = useAuthStore((state) => state.authUser);
+  const { openAuthRequiredDialog } = useAuthRequired();
 
   const isDisabled =
     product.selectedVariant.stock - product.selectedVariant.reserved < 1;
 
   const handleAddToCart = () => {
-    addItem({
-      id: product.selectedVariant.id,
-      quantity,
-    });
-    setCartAnimation(true);
-    setTimeout(() => {
-      setCartAnimation(false);
-      setIsOpen(true);
-    }, 600);
+    if (!authUser) {
+      openAuthRequiredDialog({
+        title: "Sign in to add products to cart.",
+        description: "You need to be logged in to add products to cart.",
+      });
+    } else {
+      addItem({
+        id: product.selectedVariant.id,
+        quantity,
+      });
+      setCartAnimation(true);
+      setTimeout(() => {
+        setCartAnimation(false);
+        setIsOpen(true);
+      }, 600);
+    }
   };
 
   return (
