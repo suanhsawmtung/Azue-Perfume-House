@@ -41,7 +41,7 @@ export function HeroSection() {
       <ContentWrapper className="relative flex min-h-[94vh] items-center lg:min-h-[91vh]">
         <div className="max-w-2xl">
           <span className="text-muted-foreground inline-block text-xs font-medium tracking-[0.3em] uppercase">
-            New Collection 2024
+            {`New Collection ${new Date().getFullYear()}`}
           </span>
           <h1 className="mt-4 font-serif text-5xl leading-tight font-medium tracking-tight text-balance md:text-6xl lg:text-7xl">
             Discover Your Signature Scent
