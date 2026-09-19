@@ -1,5 +1,6 @@
 import { SEO, type SEOProps } from "@/components/shared/seo";
-import { Outlet, useMatches } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useLocation, useMatches } from "react-router";
 
 type Metadata = SEOProps;
 
@@ -30,6 +31,12 @@ export const RootLayout = () => {
     .reverse()
     .map(({ handle }) => resolveMetadata(handle as RouteHandle))
     .find((metadata): metadata is SEOProps => Boolean(metadata));
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <>
