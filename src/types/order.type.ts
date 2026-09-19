@@ -112,7 +112,7 @@ export interface AdminOrderType {
 export interface OrderItem {
   id: number;
   orderId: number;
-  itemId: number;
+  productVariantId: number;
   quantity: number;
   price: string | number;
   createdAt: string;

@@ -11,7 +11,11 @@ import { Input } from "@/components/ui/input";
 import { TabButton } from "@/components/ui/tab-button";
 import { Textarea } from "@/components/ui/textarea";
 import { formatImagePath, formatPrice } from "@/lib/utils";
-import type { OrderDetailType, OrderFormValues, OrderStatus } from "@/types/order.type";
+import type {
+  OrderDetailType,
+  OrderFormValues,
+  OrderStatus,
+} from "@/types/order.type";
 import { orderFormSchema } from "@/validations/order.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImageIcon, Loader2 } from "lucide-react";
@@ -32,7 +36,10 @@ const statusOptions: Array<{ key: OrderStatus; text: string }> = [
   { key: "CANCELLED", text: "Cancelled" },
 ];
 
-export const orderStatusTransitions: Record<OrderStatus, readonly OrderStatus[]> = {
+export const orderStatusTransitions: Record<
+  OrderStatus,
+  readonly OrderStatus[]
+> = {
   PENDING: ["ACCEPTED", "REJECTED", "CANCELLED"],
   ACCEPTED: ["SHIPPED", "CANCELLED", "PENDING"],
   SHIPPED: ["DELIVERED", "CANCELLED", "ACCEPTED"],
@@ -64,7 +71,13 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
     if (order?.source === "CUSTOMER") return true;
 
     // For ADMIN source: Lock if status is SHIPPED or further
-    const lockedStatuses: OrderStatus[] = ["SHIPPED", "DELIVERED", "DONE", "CANCELLED", "REJECTED"];
+    const lockedStatuses: OrderStatus[] = [
+      "SHIPPED",
+      "DELIVERED",
+      "DONE",
+      "CANCELLED",
+      "REJECTED",
+    ];
     return lockedStatuses.includes(order.status);
   }, [isEditMode, order?.source, order?.status]);
 
@@ -74,7 +87,9 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
     return terminalStatuses.includes(order.status);
   }, [isEditMode, order?.status]);
 
-  const [variantMap, setVariantMap] = useState<Record<number, VariantMetadata>>({});
+  const [variantMap, setVariantMap] = useState<Record<number, VariantMetadata>>(
+    {},
+  );
 
   const form = useForm<OrderFormValues>({
     resolver: zodResolver(orderFormSchema),
@@ -85,11 +100,12 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
       customerNotes: order?.customerNotes || "",
       status: order?.status || "PENDING",
       source: order?.source || "ADMIN",
-      items: order?.orderItems?.map(item => ({
-        itemId: item.itemId,
-        quantity: item.quantity,
-        price: Number(item.price),
-      })) || [],
+      items:
+        order?.orderItems?.map((item) => ({
+          itemId: item.productVariantId,
+          quantity: item.quantity,
+          price: Number(item.price),
+        })) || [],
       rejectedReason: order?.rejectedReason || "",
       cancelledReason: order?.cancelledReason || "",
     },
@@ -99,19 +115,19 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
   useEffect(() => {
     if (order?.orderItems) {
       const initialMap: Record<number, VariantMetadata> = {};
-      order.orderItems.forEach(item => {
+      order.orderItems.forEach((item) => {
         if (item.productVariant) {
-          initialMap[item.itemId] = {
+          initialMap[item.productVariantId] = {
             sku: item.productVariant.sku,
             size: item.productVariant.size,
             productName: item.productVariant.product.name,
             brandName: item.productVariant.product.brand.name,
-            stock: (item.productVariant.stock - item.productVariant.reserved),
+            stock: item.productVariant.stock - item.productVariant.reserved,
             originalPrice: item.productVariant.price,
           };
         }
       });
-      setVariantMap(prev => ({ ...prev, ...initialMap }));
+      setVariantMap((prev) => ({ ...prev, ...initialMap }));
     }
   }, [order]);
 
@@ -133,18 +149,23 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
       if (isEditMode) {
         // Content preservation check for locked states
         if (isContentLocked) {
-          const isNameChanged = values.customerName !== (order?.customerName || "");
-          const isPhoneChanged = values.customerPhone !== (order?.customerPhone || "");
-          const isAddressChanged = values.customerAddress !== (order?.customerAddress || "");
-          const isNotesChanged = (values.customerNotes || "") !== (order?.customerNotes || "");
+          const isNameChanged =
+            values.customerName !== (order?.customerName || "");
+          const isPhoneChanged =
+            values.customerPhone !== (order?.customerPhone || "");
+          const isAddressChanged =
+            values.customerAddress !== (order?.customerAddress || "");
+          const isNotesChanged =
+            (values.customerNotes || "") !== (order?.customerNotes || "");
 
           const initialItems = order?.orderItems || [];
-          const isItemsLengthChanged = values.items.length !== initialItems.length;
+          const isItemsLengthChanged =
+            values.items.length !== initialItems.length;
           const isItemsContentChanged = values.items.some((item, index) => {
             const original = initialItems[index];
             return (
               !original ||
-              item.itemId !== original.itemId ||
+              item.itemId !== original.productVariantId ||
               item.quantity !== original.quantity ||
               Number(item.price) !== Number(original.price)
             );
@@ -159,7 +180,9 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
             isItemsContentChanged
           ) {
             if (isCustomerOrder) {
-              toast.error("Fulfillment details are locked for customer orders.");
+              toast.error(
+                "Fulfillment details are locked for customer orders.",
+              );
             } else {
               toast.error(`Order content is locked in ${order.status} status.`);
             }
@@ -176,12 +199,21 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
       // Validation: Order Status Transition
       if (isEditMode && order?.status) {
         const allowedTransitions = orderStatusTransitions[order.status];
-        if (values.status !== order.status && !allowedTransitions.includes(values.status as OrderStatus)) {
-          toast.error(`Cannot change order status from ${order.status} to ${values.status}`);
+        if (
+          values.status !== order.status &&
+          !allowedTransitions.includes(values.status as OrderStatus)
+        ) {
+          toast.error(
+            `Cannot change order status from ${order.status} to ${values.status}`,
+          );
           return;
         }
 
-        if (values.status !== order.status && order.source === "CUSTOMER" && values.status === "CANCELLED") {
+        if (
+          values.status !== order.status &&
+          order.source === "CUSTOMER" &&
+          values.status === "CANCELLED"
+        ) {
           toast.error(`You cannot cancel the customer sourced order.`);
           return;
         }
@@ -220,8 +252,36 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
         method: isEditMode ? "PATCH" : "POST",
       });
     },
-    [isEditMode, isContentLocked, order, isCustomerOrder, isStatusLocked, submit]
+    [
+      isEditMode,
+      isContentLocked,
+      order,
+      isCustomerOrder,
+      isStatusLocked,
+      submit,
+    ],
   );
+
+  const onInvalid = useCallback((errors: unknown) => {
+    const findMessage = (value: unknown): string | undefined => {
+      if (!value || typeof value !== "object") return undefined;
+
+      const record = value as Record<string, unknown>;
+      if (typeof record.message === "string") return record.message;
+
+      for (const child of Object.values(record)) {
+        const message = findMessage(child);
+        if (message) return message;
+      }
+
+      return undefined;
+    };
+
+    toast.error(
+      findMessage(errors) ||
+        "Please fix the validation errors before submitting.",
+    );
+  }, []);
 
   const watchedItems = useWatch({
     control: form.control,
@@ -231,12 +291,16 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
 
   const filteredStatusOptions = useMemo(() => {
     if (!isEditMode) {
-      return statusOptions.filter(opt => ["PENDING", "ACCEPTED"].includes(opt.key));
+      return statusOptions.filter((opt) =>
+        ["PENDING", "ACCEPTED"].includes(opt.key),
+      );
     }
 
-    const transitions = orderStatusTransitions[order.status as OrderStatus] || [];
+    const transitions =
+      orderStatusTransitions[order.status as OrderStatus] || [];
     return statusOptions.filter((option) => {
-      const isAllowed = option.key === order.status || transitions.includes(option.key);
+      const isAllowed =
+        option.key === order.status || transitions.includes(option.key);
 
       // Hide CANCELLED status for CUSTOMER source orders in update form
       if (order?.source === "CUSTOMER" && option.key === "CANCELLED") {
@@ -249,12 +313,15 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
 
   const totalPrice = watchedItems.reduce(
     (acc, field) => acc + (field.price || 0) * (field.quantity || 0),
-    0
+    0,
   );
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit, onInvalid)}
+        className="space-y-6"
+      >
         <div className="grid grid-cols-1 gap-x-8 gap-y-6 md:grid-cols-2">
           <div className="w-full">
             {imageUrl ? (
@@ -269,7 +336,7 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
                 </div>
               </div>
             ) : (
-              <div className="bg-muted/10 flex h-auto w-full flex-col items-center justify-center gap-3 rounded-lg border-muted-foreground/25 border-2 border-dashed p-8">
+              <div className="bg-muted/10 border-muted-foreground/25 flex h-auto w-full flex-col items-center justify-center gap-3 rounded-lg border-2 border-dashed p-8">
                 <div className="flex min-h-[300px] flex-col items-center justify-center gap-3">
                   <ImageIcon className="text-muted-foreground h-6 w-6" />
                   <p className="text-muted-foreground text-xs font-normal">
@@ -280,7 +347,7 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
             )}
           </div>
 
-          <div className="space-y-4 w-full">
+          <div className="w-full space-y-4">
             <FormField
               control={form.control}
               name="customerName"
@@ -288,7 +355,11 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter customer name" {...field} disabled={!!isContentLocked} />
+                    <Input
+                      placeholder="Enter customer name"
+                      {...field}
+                      disabled={!!isContentLocked}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -301,7 +372,11 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter customer phone" {...field} disabled={!!isContentLocked} />
+                    <Input
+                      placeholder="Enter customer phone"
+                      {...field}
+                      disabled={!!isContentLocked}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -390,7 +465,10 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
                   <FormItem>
                     <FormLabel>Cancelled Reason (Optional)</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Reason for cancellation" {...field} />
+                      <Textarea
+                        placeholder="Reason for cancellation"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -399,15 +477,19 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
             )}
             {/* Financial Summary */}
             {isEditMode && (
-              <div className="mt-8 grid grid-cols-2 gap-4 rounded-lg border bg-muted/30 p-4 shadow-sm">
+              <div className="bg-muted/30 mt-8 grid grid-cols-2 gap-4 rounded-lg border p-4 shadow-sm">
                 <div className="space-y-1">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Total Paid</p>
+                  <p className="text-muted-foreground text-[10px] font-bold tracking-wider uppercase">
+                    Total Paid
+                  </p>
                   <p className="text-lg font-bold text-emerald-600 tabular-nums">
                     {formatPrice(order?.totalPaidAmount || 0)}
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Total Refunded</p>
+                  <p className="text-muted-foreground text-[10px] font-bold tracking-wider uppercase">
+                    Total Refunded
+                  </p>
                   <p className="text-lg font-bold text-rose-600 tabular-nums">
                     {formatPrice(order?.totalRefundAmount || 0)}
                   </p>
@@ -420,7 +502,7 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-medium">Order Items</h3>
-            <p className="text-lg font-bold text-primary">
+            <p className="text-primary text-lg font-bold">
               Total: {formatPrice(totalPrice)}
             </p>
           </div>
@@ -432,11 +514,16 @@ export const OrderForm = ({ order }: { order?: OrderDetailType }) => {
             control={form.control}
             disabled={!!isContentLocked}
           />
+          {typeof form.formState.errors.items?.message === "string" && (
+            <p className="text-destructive text-sm font-medium">
+              {form.formState.errors.items.message}
+            </p>
+          )}
 
           {!isContentLocked && (
             <AddOrderItemForm
               onAdd={(item, metadata) => {
-                setVariantMap(prev => ({ ...prev, [item.itemId]: metadata }));
+                setVariantMap((prev) => ({ ...prev, [item.itemId]: metadata }));
                 append(item);
               }}
             />

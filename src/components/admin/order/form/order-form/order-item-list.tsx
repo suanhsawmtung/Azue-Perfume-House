@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  FormField
-} from "@/components/ui/form";
+import { FormField, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { formatPrice } from "@/lib/utils";
 import { Trash2 } from "lucide-react";
@@ -71,20 +69,25 @@ export const OrderItemList = ({ fields, remove, variantMap, control, disabled }:
                   control={control}
                   name={`items.${index}.quantity`}
                   render={({ field: qtyField }) => (
-                    <Input
-                      type="number"
-                      className="h-8 w-20"
-                      {...qtyField}
-                      min={1}
-                      max={metadata?.stock}
-                      disabled={disabled}
-                      onChange={(e) => qtyField.onChange(
-                        Math.min(
-                          metadata?.stock,
-                          Math.max(1, Number(e.target.value))
-                        )
-                      )}
-                    />
+                    <>
+                      <Input
+                        type="number"
+                        className="h-8 w-20"
+                        {...qtyField}
+                        min={1}
+                        max={metadata?.stock}
+                        disabled={disabled}
+                        onChange={(e) =>
+                          qtyField.onChange(
+                            Math.min(
+                              metadata?.stock,
+                              Math.max(1, Number(e.target.value)),
+                            ),
+                          )
+                        }
+                      />
+                      <FormMessage />
+                    </>
                   )}
                 />
               </div>
