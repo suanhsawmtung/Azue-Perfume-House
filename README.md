@@ -8,7 +8,7 @@ The project also includes an administration panel for managing the business, inc
 
 The project may be expanded in the future with additional e-commerce and business management capabilities.
 
-**Related:** [Backend](https://github.com/suanhsawmtung/Azue-Perfume-House-Backend)
+**Related:** [Backend](https://github.com/suanhsawmtung/Azue-Perfume-House-Backend-API)
 
 > **Note:** Some dummy images used in this project are hosted on external websites. If you are in Myanmar, you may need to use a VPN to load some of these images.
 
