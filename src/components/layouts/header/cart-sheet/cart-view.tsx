@@ -188,7 +188,7 @@ export function CartView({
       </div>
 
       <SheetFooter className="border-border/50 border-t">
-        <div className="mb-4 w-full space-y-4">
+        <div className="w-full space-y-4">
           {/* <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Subtotal</span>
             <span className="font-semibold">{formatPrice(subtotal)}</span>

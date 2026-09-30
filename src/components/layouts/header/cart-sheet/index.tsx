@@ -48,7 +48,7 @@ export function CartSheet() {
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetContent
         side="right"
-        className="flex h-screen w-full flex-col sm:max-w-md"
+        className="flex w-full flex-col sm:max-w-md"
         aria-describedby="hello"
       >
         <SheetHeader>
