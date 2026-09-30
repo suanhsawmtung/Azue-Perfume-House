@@ -214,7 +214,7 @@ export function CheckoutView({
       />
 
       <SheetFooter className="border-border/50 border-t">
-        <div className="w-full space-y-6">
+        <div className="h-64 w-full space-y-6">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Subtotal</span>
