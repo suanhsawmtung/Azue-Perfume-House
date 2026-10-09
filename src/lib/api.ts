@@ -1,6 +1,12 @@
 import { baseApiUrl } from "@/config/env";
-import { useAuthStore } from "@/stores/auth.store";
+import {
+  ACCESS_TOKEN_STORAGE_KEY,
+  REFRESH_TOKEN_STORAGE_KEY,
+  setAuthTokens,
+  useAuthStore,
+} from "@/stores/auth.store";
 import axios, { AxiosError, type InternalAxiosRequestConfig } from "axios";
+import { isAppleDevice } from "./device";
 import { sleep } from "./utils";
 
 interface RetryConfig extends InternalAxiosRequestConfig {
@@ -16,26 +22,51 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Request interceptor
-// api.interceptors.request.use(
-//   (config) => {
-//     // Add auth token if available
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   },
-// );
+api.interceptors.request.use(
+  (config) => {
+    const appleDevice = isAppleDevice();
+    config.headers.set("is-apple-device", String(appleDevice));
+
+    if (appleDevice && typeof window !== "undefined") {
+      const accessToken = window.localStorage.getItem(
+        ACCESS_TOKEN_STORAGE_KEY,
+      );
+      const refreshToken = window.localStorage.getItem(
+        REFRESH_TOKEN_STORAGE_KEY,
+      );
+
+      if (accessToken) config.headers.set("Authorization", `Bearer ${accessToken}`);
+      if (refreshToken) config.headers.set("refresh-token", refreshToken);
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+const persistTokensFromResponse = (response: { data?: any; headers: any }) => {
+  const accessToken =
+    response.data?.accessToken || response.headers?.["x-access-token"];
+  const refreshToken =
+    response.data?.refreshToken || response.headers?.["x-refresh-token"];
+
+  if (isAppleDevice() && (accessToken || refreshToken)) {
+    setAuthTokens(accessToken, refreshToken);
+  }
+};
 
 // Response interceptor
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    persistTokensFromResponse(response);
+    return response;
+  },
 
   async (error: AxiosError<any>) => {
+    if (error.response) {
+      persistTokensFromResponse(error.response);
+    }
+
     const config = error.config as RetryConfig | undefined;
 
     if (!config || config._retry) {
