@@ -26,6 +26,27 @@ export interface AuthFlowState {
   flow: AuthFlow;
 }
 
+export const ACCESS_TOKEN_STORAGE_KEY = "accessToken";
+export const REFRESH_TOKEN_STORAGE_KEY = "refreshToken";
+
+export const setAuthTokens = (accessToken?: string, refreshToken?: string) => {
+  if (typeof window === "undefined") return;
+
+  if (accessToken) {
+    window.localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
+  }
+  if (refreshToken) {
+    window.localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
+  }
+};
+
+export const clearAuthTokens = () => {
+  if (typeof window === "undefined") return;
+
+  window.localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY);
+  window.localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
+};
+
 // Auth store state
 interface AuthState {
   // Authenticated user (null when not authenticated)
@@ -72,6 +93,7 @@ export const useAuthStore = create<AuthState>()(
 
       // Clear authenticated user only
       clearAuthUser: () => {
+        clearAuthTokens();
         set((state) => {
           state.authUser = null;
         });
@@ -81,6 +103,7 @@ export const useAuthStore = create<AuthState>()(
 
       // Clear all auth data
       clearAuth: () => {
+        clearAuthTokens();
         set((state) => {
           state.authUser = null;
           state.authFlow = null;
