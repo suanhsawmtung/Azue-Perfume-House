@@ -43,3 +43,9 @@ jobs:
           IMAGE=${{ env.DOCKER_REPO }}:${{ env.DOCKER_TAG }}
           echo "Pushing ${IMAGE}"
           docker push "${IMAGE}"
+
+      - name: Redeploy on Railway
+        run: npx -y @railway/cli@latest redeploy --service "$RAILWAY_SERVICE_NAME" --yes
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME }}
